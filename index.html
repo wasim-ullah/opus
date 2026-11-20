@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>OpusMeds: Meta ads review dashboard</title>
+<style>
+:root{color-scheme:light;--bg:#f4f3f0;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#807f7a;--grid:#e6e5e1;--s1:#2a78d6;--s2:#eb6834;--bad:#b3261e;--line:#dcdbd6}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#111110;--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#97968e;--grid:#2c2c2a;--s1:#3987e5;--s2:#d95926;--bad:#f08c84;--line:#34342f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:28px;margin:0 0 4px;letter-spacing:-.01em}
+h2{font-size:18px;margin:36px 0 12px}
+.sub{color:var(--ink2);margin:0 0 4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:20px}
+.kpi .v{font-size:30px;font-weight:650;letter-spacing:-.02em}
+.kpi .l{color:var(--ink2);font-size:13px}
+.kpi .n{color:var(--muted);font-size:12px;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:14px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+.card h3{font-size:15px;margin:0 0 2px}
+.card .d{color:var(--ink2);font-size:13px;margin:0 0 10px}
+ul.find{margin:0;padding-left:20px}ul.find li{margin:6px 0}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--ink2);margin-bottom:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+svg{width:100%;height:auto;display:block;overflow:visible}
+svg text{fill:var(--ink2);font-size:11px;font-family:inherit}
+svg .val{fill:var(--ink);font-weight:600}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--surface);padding:6px 9px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .08s;z-index:9;max-width:240px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--ink2);font-weight:600;font-size:12px}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.tag.p1{color:var(--bad);border-color:var(--bad)}
+.filters{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.filters button{font:inherit;font-size:13px;padding:4px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+details{margin-top:8px}summary{cursor:pointer;color:var(--ink2);font-size:13px}
+.note{color:var(--muted);font-size:12.5px}
+.scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>OpusMeds: Meta ads review</h1>
+<p class="sub">Prepared by Wasim Ullah &middot; 20 November 2026 &middot; Data to 19 November 2026</p>
+<p class="note">Sources: WooCommerce orders, Stripe payments, Meta Ads Manager exports (both accounts), Microsoft Clarity (90 days). Conversion = paid orders &divide; Meta link clicks. ROAS = WooCommerce paid-order revenue &divide; Meta spend.</p>
+
+<div class="kpis" id="kpis"></div>
+
+<h2>What the data says</h2>
+<div class="card"><ul class="find">
+<li><b>Spend scaled, but ROAS stayed far below break-even.</b> August to October: spend +58%, paid orders +79%, ROAS 0.065 to 0.083. Break-even on a first order is 1.0.</li>
+<li><b>Clicks are not the limit.</b> Only 0.42% to 0.49% of link clicks end in a paid order, which is $576 to $650 of spend per order against an average order of about $41.</li>
+<li><b>Sales are lost in the funnel and at payment.</b> Result page to checkout fell from about 50% to 13% in the last 30 days; 23% to 32% of Stripe orders in Sep to Nov were never paid.</li>
+<li><b>Meta had no result to optimise on.</b> About $24,400 of spend (September to 21 October) shows no results in Ads Manager.</li>
+<li><b>Repeat purchases are not in this data,</b> so whether a $41 order can ever pay back $576 is unknown.</li>
+</ul></div>
+
+<h2>Spend, sales and efficiency over time</h2>
+<div class="grid">
+ <div class="card"><h3>Meta spend vs revenue from paid orders</h3><p class="d">US dollars per period</p><div class="legend"><span><i style="background:var(--s1)"></i>Spend</span><span><i style="background:var(--s2)"></i>Revenue</span></div><div id="c1"></div></div>
+ <div class="card"><h3>Spend per paid order</h3><p class="d">US dollars. Lower is better.</p><div id="c2"></div></div>
+ <div class="card"><h3>ROAS (revenue &divide; spend)</h3><p class="d">Cents returned per $1 spent. Break-even on a first order is 100.</p><div id="c3"></div></div>
+ <div class="card"><h3>Conversion: paid orders &divide; link clicks</h3><p class="d">Percent. November left out: it includes October clickers who paid later.</p><div id="c4"></div></div>
+ <div class="card"><h3>Link clicks per $1,000 of spend</h3><p class="d">Ranges from 266 to 463 across periods; the drop-off is after the click.</p><div id="c5"></div></div>
+ <div class="card"><h3>Paid orders per period</h3><p class="d">Small monthly counts (2 to 25): a few orders move every ratio.</p><div id="c6"></div></div>
+</div>
+<p class="note">Mar to May is three months combined. *June link clicks are inflated by one boosted post (4,332 clicks for $94). *November is partial (to the 19th).</p>
+<details><summary>Table view of the monthly data</summary><div class="scroll card" style="margin-top:8px"><table id="tbl"></table></div></details>
+
+<h2>Where sales are being lost</h2>
+<div class="grid">
+ <div class="card"><h3>Result page to checkout</h3><p class="d">Share of result-page visitors who reach checkout (Clarity)</p><div id="c7"></div><p class="note">Earlier 60 days: 110 of 221. Last 30 days: 7 of 54 (small sample).</p></div>
+ <div class="card"><h3>Orders started in Stripe but never paid</h3><p class="d">Percent of orders by month. Insufficient funds was 19 of 22 failures in October.</p><div id="c8"></div></div>
+</div>
+
+<h2>Action items, in the order the client asked for</h2>
+<p class="note">Sales-loss fixes come first. Targets are proposed and will be confirmed after the week 1 baseline.</p>
+<div class="filters" id="filters"></div>
+<div class="card scroll"><table id="actions"></table></div>
+
+<h2>Testing plan: proof over time</h2>
+<div class="card">
+<p style="margin-top:0">There is no single fix for conversion, so each change is measured against a baseline before it is trusted. Traffic is the constraint: at about 0.44% conversion, a purchase-level A/B test needs roughly 14,500 visitors per version to detect a 50% improvement, which is about five months of the traffic seen in September and October. So the plan starts with before/after measurement and moves to A/B tests on the earlier funnel steps once traffic returns.</p>
+<table id="tests"></table>
+<p class="note">Sample sizes are rough estimates (95% confidence, 80% power) from the baselines above and will be recalculated once the week 1 baseline is in. Any testing tool must be kept off questionnaire answers and checkout details, and chosen only after the client approves it from a privacy point of view.</p>
+</div>
+
+<h2>Limits of this data</h2>
+<div class="card"><ul class="find">
+<li>Clarity recordings were not watched; the AI summary failed, so this uses the dashboard, funnels and heatmaps. Clarity offers fixed windows, so "earlier 60 days" is 90-day totals minus 30-day totals.</li>
+<li>Meta attributes on a 7-day click and 1-day view window, so orders can land in a different month from the click.</li>
+<li>Monthly site visitors are not available; link clicks stand in for traffic. WooCommerce is the source of truth for orders and revenue.</li>
+</ul></div>
+</div>
+<div id="tip"></div>
+
+<script>
+const M=['Mar–May','Jun*','Jul','Aug','Sep','Oct','Nov*'];
+const spend=[8093,1402,2502,9098,13561,14400,4994];
+const rev=[180,69,323,588,796,1192,349];
+const orders=[4,2,6,14,23,25,11];
+const spo=[2023,701,417,650,590,576,454];
+const roas=[2.2,4.9,12.9,6.5,5.9,8.3,7.0];
+const conv=[0.14,null,0.52,0.49,0.42,0.44,null];
+const cpm=[341,null,463,311,405,390,266];
+const $=s=>document.querySelector(s);
+const tip=$('#tip');
+function showTip(e,t){tip.innerHTML=t;tip.style.opacity=1;const x=Math.min(e.clientX+12,innerWidth-250);tip.style.left=x+'px';tip.style.top=(e.clientY+14)+'px'}
+function hideTip(){tip.style.opacity=0}
+const fmt=n=>n.toLocaleString('en-US');
+
+// KPIs
+[['$54,050','Meta spend','Mar to 19 Nov'],['85','Paid orders','WooCommerce'],['about $3,500','Revenue from paid orders','average order about $41'],['0.065','ROAS','6.5 cents back per $1'],['about $636','Spend per paid order','']].forEach(k=>{
+ $('#kpis').insertAdjacentHTML('beforeend',`<div class="card kpi"><div class="v">${k[0]}</div><div class="l">${k[1]}</div><div class="n">${k[2]}</div></div>`)});
+
+// generic bar chart: labels, series[{name,vals,cls,fmt}], opts
+function bars(sel,labels,series,o={}){
+ const W=520,H=230,L=44,R=8,T=18,B=30;
+ const all=series.flatMap(s=>s.vals).filter(v=>v!=null);
+ const nice=x=>{const p=Math.pow(10,Math.floor(Math.log10(x)));for(const m of [1,2,4,8,10])if(m*p>=x*1.08)return m*p};const max=o.max||nice(Math.max(...all));
+ const n=labels.length,gw=(W-L-R)/n,bw=Math.min(34,(gw-10)/series.length-2);
+ let g='';
+ for(let i=0;i<=4;i++){
+  const val=max*i/4;const yy=T+(H-T-B)*(1-i/4);
+  g+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="var(--grid)"/><text x="${L-6}" y="${yy+4}" text-anchor="end">${o.axis?o.axis(val):fmt(Math.round(val))}</text>`}
+ labels.forEach((lb,i)=>{
+  const cx=L+gw*i+gw/2;
+  g+=`<text x="${cx}" y="${H-10}" text-anchor="middle">${lb}</text>`;
+  series.forEach((s,k)=>{
+   const v=s.vals[i];if(v==null)return;
+   const h=(H-T-B)*v/max,x=cx-(series.length*(bw+2)-2)/2+k*(bw+2),y=H-B-h;
+   const f=(s.fmt||(a=>fmt(a)))(v);
+   g+=`<path d="M${x},${H-B}V${y+4}Q${x},${y} ${x+4},${y}H${x+bw-4}Q${x+bw},${y} ${x+bw},${y+4}V${H-B}Z" fill="var(--${s.c})" data-t="<b>${lb}</b><br>${s.name}: ${f}" class="b"/>`;
+   if(series.length==1)g+=`<text class="val" x="${x+bw/2}" y="${y-5}" text-anchor="middle">${f}</text>`;
+  });
+ });
+ g+=`<line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="var(--muted)"/>`;
+ $(sel).innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.aria||''}">${g}</svg>`;
+ $(sel).querySelectorAll('.b').forEach(p=>{p.addEventListener('mousemove',e=>showTip(e,p.dataset.t));p.addEventListener('mouseleave',hideTip)});
+}
+const usd=v=>'$'+fmt(Math.round(v));
+bars('#c1',M,[{name:'Spend',vals:spend,c:'s1',fmt:usd},{name:'Revenue',vals:rev,c:'s2',fmt:usd}],{axis:v=>'$'+fmt(Math.round(v/1000))+'k',aria:'Spend and revenue by period'});
+bars('#c2',M,[{name:'Spend per order',vals:spo,c:'s1',fmt:usd}],{axis:usd,aria:'Spend per paid order'});
+bars('#c3',M,[{name:'ROAS (cents per $1)',vals:roas,c:'s1',fmt:v=>v.toFixed(1)+'¢'}],{max:100,axis:v=>Math.round(v)+'¢',aria:'ROAS in cents per dollar against break-even of 100'});
+bars('#c4',M,[{name:'Conversion',vals:conv,c:'s1',fmt:v=>v.toFixed(2)+'%'}],{axis:v=>v.toFixed(1)+'%',aria:'Conversion rate'});
+bars('#c5',M,[{name:'Clicks per $1,000',vals:cpm,c:'s1',fmt:v=>fmt(v)}],{aria:'Link clicks per 1000 dollars'});
+bars('#c6',M,[{name:'Paid orders',vals:orders,c:'s1',fmt:v=>fmt(v)}],{aria:'Paid orders'});
+bars('#c7',['Earlier 60 days','Last 30 days'],[{name:'Reached checkout',vals:[49.8,13.0],c:'s1',fmt:v=>v.toFixed(0)+'%'}],{max:100,axis:v=>Math.round(v)+'%',aria:'Result page to checkout'});
+bars('#c8',['Aug','Sep','Oct','Nov*'],[{name:'Never paid',vals:[12,26,23,32],c:'s2',fmt:v=>v+'%'}],{max:40,axis:v=>Math.round(v)+'%',aria:'Share of orders never paid'});
+
+// table view
+$('#tbl').innerHTML='<tr><th>Period</th><th>Spend</th><th>Paid orders</th><th>Revenue</th><th>ROAS</th><th>Spend per order</th><th>Conversion</th></tr>'+M.map((m,i)=>`<tr><td>${m}</td><td>${usd(spend[i])}</td><td>${orders[i]}</td><td>${usd(rev[i])}</td><td>${(roas[i]/100).toFixed(3)}</td><td>${usd(spo[i])}</td><td>${conv[i]==null?'n/a':conv[i].toFixed(2)+'%'}</td></tr>`).join('');
+
+// action items
+const A=[
+['1','Result page: remove newsletter signup, extra menu and approval note; make the checkout button the one clear action, higher up','Result page to checkout fell to 13%','Back toward the earlier 50%','Weeks 1 to 2','Sales loss'],
+['2','Checkout and payment: cut fields, hide order notes and ship-to-different-address, add Apple Pay and Google Pay, plain retry message after a decline','22% tap Place order; 23% to 32% of orders never paid','Never paid below 15%','Weeks 1 to 2','Sales loss'],
+['3','Questionnaire and speed: shorter first screen with progress indicator; compress images, defer scripts; test in Instagram and Facebook in-app browsers','63% of sessions are in-app; LCP 4.5 to 7.6 seconds','LCP under 4 seconds','Weeks 3 to 4','Sales loss'],
+['4','Measurement: one event per funnel step, men\'s funnel in Clarity, bot detection on, non-US traffic filtered','Men\'s path cannot be measured; 12% of sessions flagged as bots','Every step counted','Weeks 3 to 4','Tracking'],
+['5','Purchase signal to Meta (Cookiebot, GTM, Stape), no health information in the event','About $24,400 of spend had no result','Within about 10% of WooCommerce paid orders','Weeks 7 to 8','Tracking'],
+['6','Consent and tags: remove Google Ads tag and remarketing, consent denied by default, no ad or analytics tags on questionnaire, checkout, account pages; one pixel','Health-page data sent before consent; two pixels in two businesses','No tag fires before consent on sensitive pages','Weeks 3 to 4','Tracking'],
+['7','Landing page copy edits (client approves each change)','Needed for ad approval and to match tracking','Client-approved copy','Weeks 7 to 8','Sales loss'],
+['8','Testing programme: before/after tracking now, A/B tests once traffic returns (see testing plan)','Conversion needs proof over time','Each change measured against baseline','From week 1','Testing'],
+['9','Campaign rebuild and small relaunch: one campaign per product, Purchase objective, stop rule','Mixed objectives and $250 daily budgets','Rising ROAS, falling spend per order','Weeks 10 to 12','Campaigns'],
+['10','Weekly report from WooCommerce and Stripe','Meta\'s results do not match sales','One page a week','From week 11','Reporting']
+];
+const cats=['All','Sales loss','Tracking','Testing','Campaigns','Reporting'];
+let cur='All';
+function drawA(){
+ $('#actions').innerHTML='<tr><th>#</th><th>Action</th><th>Why</th><th>Proposed target</th><th>When</th><th>Area</th></tr>'+A.filter(a=>cur=='All'||a[5]==cur).map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}</td><td>${a[4]}</td><td><span class="tag ${a[5]=='Sales loss'?'p1':''}">${a[5]}</span></td></tr>`).join('');
+ $('#filters').innerHTML=cats.map(c=>`<button aria-pressed="${c==cur}" data-c="${c}">${c}</button>`).join('');
+ document.querySelectorAll('#filters button').forEach(b=>b.onclick=()=>{cur=b.dataset.c;drawA()});
+}
+drawA();
+
+// tests
+const T=[
+['Phase 1: now to relaunch','Before/after on each change','Ship one change at a time, compare funnel steps with the week 1 baseline and Clarity','Result page to checkout, checkout to paid, never-paid rate','Directional only: traffic is too low for a statistical test'],
+['Phase 2: after relaunch','A/B: result page layout','Current layout vs single clear checkout button','Result page to checkout (baseline 13% to 50%)','About 370 visitors per version to detect 13% to 20%'],
+['Phase 2','A/B: checkout fields and wallets','Current checkout vs fewer fields plus Apple Pay and Google Pay','Place order taps and paid orders (baseline 22% taps)','Several hundred visitors per version'],
+['Phase 2','A/B: questionnaire first screen','Current vs shorter first screen with progress indicator','Mini survey to full questionnaire (baseline 29%)','Several hundred visitors per version'],
+['Phase 3','A/B: approved landing page copy','Current vs approved copy variants','Questionnaire starts per visit, then paid orders','Purchase-level result needs about 14,500 visitors per version']
+];
+$('#tests').innerHTML='<tr><th>When</th><th>Test</th><th>What changes</th><th>Measured on</th><th>Visitors needed</th></tr>'+T.map(t=>'<tr>'+t.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('');
+</script>
+</body>
+</html>
