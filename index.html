@@ -70,6 +70,7 @@ details{margin-top:8px}summary{cursor:pointer;color:var(--ink2);font-size:13px}
 <tr><td>3</td><td>Send the refund reasons and Stripe decline codes for Facebook/Instagram orders.</td><td>Shows whether the problem is payment or traffic quality</td></tr>
 <tr><td>4</td><td>Answer the vendor list for Business Associate Agreements (host, email sending, CRM, backups, questionnaire storage).</td><td>Needed before any identifiers go to a tracking tool</td></tr>
 <tr><td>5</td><td>Approve installing Cookiebot (the trial covers one domain; a paid plan is needed before launch).</td><td>Consent banner, and fixes the tag order on the site</td></tr>
+<tr><td>6</td><td>Approve the five result page changes below (fix 1).</td><td>Keeps the buy button in view on phones</td></tr>
 </table></div>
 
 <h3 style="margin:22px 0 8px;font-size:16px">Proposed mobile checkout changes</h3>
@@ -82,6 +83,26 @@ details{margin-top:8px}summary{cursor:pointer;color:var(--ink2);font-size:13px}
 <tr><td>5</td><td>Test Apple Pay and Google Pay</td><td>Fewer typing steps on a phone. It will not fix declines from insufficient funds.</td></tr>
 </table></div>
 <p class="note">Layout measured in a phone-width view of the live checkout; a real-phone check follows once changes are approved.</p>
+
+<h3 style="margin:22px 0 8px;font-size:16px">Result page (fix 1): what I found and what I propose</h3>
+<div class="card">
+<p style="margin-top:0">I completed the men's sexual-health questionnaire with test answers (no purchase) and reviewed the result page. The page recommends one medication with a monthly or one-time choice and a "Proceed to checkout" button. I measured it at desktop width, where the card is only about 414px wide, so the phone layout should be very close; the exact phone view is confirmed after approval.</p>
+<ul class="find">
+<li><b>The checkout button is about 1,000px down a page about 2,500px tall.</b> On a phone that is more than a screen of scrolling before the first tap, and the button does not stay in view.</li>
+<li><b>Clarity (last 3 days):</b> both iPhone sessions on the result page had no taps. In one the page was hidden after about a second and stayed open for nearly ten minutes; in the other it was hidden and shown again three times. People arrive, leave to think, and do not continue. Clarity masks the page, so this is indicative only.</li>
+<li><b>The product is added to the cart as soon as the page loads</b> (the cart showed 1 item). Worth checking that this does not confuse buyers or add a duplicate.</li>
+<li><b>Small tap targets:</b> the "View Cart" and "Checkout" buttons in the cart message are about 117 by 34px, under the usual 44px minimum.</li>
+</ul>
+<div class="scroll"><table>
+<tr><th>#</th><th>Change</th><th>Why</th></tr>
+<tr><td>1</td><td>Sticky "Proceed to checkout" bar on phones showing the price and "cancel anytime"</td><td>The main action is always on screen</td></tr>
+<tr><td>2</td><td>Move the button, price and refund line above the product image, or shrink the image</td><td>The action is visible without scrolling</td></tr>
+<tr><td>3</td><td>Put the full-refund promise ("refunded in full if not approved") next to the button</td><td>It is currently in the text below; the reassurance belongs at the moment of choice</td></tr>
+<tr><td>4</td><td>Make the cart-message buttons at least 44px tall</td><td>Easier to tap on a phone</td></tr>
+<tr><td>5</td><td>Check the automatic add-to-cart: stop it or show a clear "added to your cart" line</td><td>Avoids surprise and duplicate items; needs a check against how checkout reads the cart</td></tr>
+</table></div>
+<p class="note">Test submissions (name "TEST Wasim", test-wasim@example.com) exist on the questionnaire system and can be ignored or deleted. Nothing was ordered.</p>
+</div>
 
 <h3 style="margin:22px 0 8px;font-size:16px">What the week 1 baseline and tests show</h3>
 <div class="card"><ul class="find">
