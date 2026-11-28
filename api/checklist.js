@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
       const inc = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
       let n = 0;
       for (const [k, o] of Object.entries(inc)) {
-        if (!/^(c\d{1,2}|r\d{1,2}|more)$/.test(k) || !o || typeof o.t !== 'number') continue;
+        if (!/^([pkf][cr]\d{1,2}|more)$/.test(k) || !o || typeof o.t !== 'number') continue;
         const v = typeof o.v === 'boolean' ? o.v : String(o.v ?? '').slice(0, 2000);
         if (!data[k] || o.t > data[k].t) data[k] = { v, t: o.t };
         if (++n > 40) break;
