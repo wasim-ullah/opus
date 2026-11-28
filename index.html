@@ -93,6 +93,31 @@ details{margin-top:8px}summary{cursor:pointer;color:var(--ink2);font-size:13px}
 <li><b>Tracking setup progress.</b> The old Meta pixel plugin is off, and ad and analytics tags are removed from the questionnaire pages (checked live). The server-side tracking container is created and linked to Tag Manager, and svc.opusmeds.com is added in Stape, waiting for the DNS record.</li>
 </ul></div>
 
+<h3 style="margin:22px 0 8px;font-size:16px">Overall recommendations</h3>
+<div class="card">
+<p style="margin-top:0"><b>1. Mobile first (about 9 in 10 orders)</b></p>
+<ul class="find">
+<li>Approve and ship the four mobile checkout changes above: a visible, sticky Place Order button with the refund line, 16px fields, the coupon link lower, and a "try another card" message.</li>
+<li>Test checkout inside the Instagram and Facebook in-app browsers, not only Safari and Chrome, because over half of visits open there and the failed payments and refunds cluster in that traffic.</li>
+<li>Get the refund reasons and Stripe decline codes for Facebook/Instagram orders. They decide whether the fix is on the payment side or in who the ads reach.</li>
+<li>Fix Clarity so mobile sessions are followed past the result page, then review mobile recordings for taps, scrolling and where people stop.</li>
+</ul>
+<p><b>2. Desktop (22% of sessions, 10 of 94 orders)</b></p>
+<ul class="find">
+<li><b>The checkout fixes help desktop too:</b> the refund line beside Place Order, the coupon link moved lower, and a "your cart is empty" message in place of the Men/Women screen when the cart is empty (three sampled desktop sessions ended there).</li>
+<li><b>Do not judge desktop yet.</b> Ten orders is too few: 8 were kept, 2 failed, none refunded, and the average order is higher ($44 against $36 on mobile). Re-check once there are about 30 desktop orders.</li>
+<li><b>Clean the desktop traffic before reading it.</b> Many desktop sessions last about 1 second with no click and come from outside the US, which looks like bots or accidental clicks. Report desktop on real sessions only so it is not made to look weak.</li>
+<li>The desktop test order (#104892) went through correctly, so there is no known desktop checkout fault.</li>
+</ul>
+<p><b>3. Across both</b></p>
+<ul class="find">
+<li>Failed payments hit about 14% of all orders (9 of the 18 were insufficient funds). Recover them with the clearer error message first; a follow-up email needs your approval and must contain no health information.</li>
+<li>Finish the tracking setup (DNS record, then Google Analytics through server-side tracking) so every later test can be read per device.</li>
+<li>Keep conversion data sent to Meta to an order value with no identifiers, and only after legal and vendor agreements are confirmed.</li>
+<li>Re-run the weekly baseline and the device table every week, and judge each change by the before and after on the same device.</li>
+</ul>
+</div>
+
 <h3 style="margin:22px 0 8px;font-size:16px">Weekly baseline (WooCommerce)</h3>
 <div class="card scroll"><table>
 <tr><th>Week starting</th><th>Paid orders</th><th>Paid revenue ($)</th><th>Failed</th><th>Refunded</th></tr>
