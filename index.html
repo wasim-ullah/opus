@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>OpusMeds: Meta ads review dashboard</title>
+<title>OpusMeds: Week 1 update and Meta ads review</title>
 <style>
 :root{color-scheme:light;--bg:#f4f3f0;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#807f7a;--grid:#e6e5e1;--s1:#2a78d6;--s2:#eb6834;--bad:#b3261e;--line:#dcdbd6}
 @media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#111110;--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#97968e;--grid:#2c2c2a;--s1:#3987e5;--s2:#d95926;--bad:#f08c84;--line:#34342f}}
@@ -41,12 +41,84 @@ th{color:var(--ink2);font-weight:600;font-size:12px}
 details{margin-top:8px}summary{cursor:pointer;color:var(--ink2);font-size:13px}
 .note{color:var(--muted);font-size:12.5px}
 .scroll{overflow-x:auto}
+.wk{border-left:4px solid var(--s1);padding-left:18px;margin-left:-2px}
+@media(max-width:520px){.wk{padding-left:12px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>OpusMeds: Meta ads review</h1>
-<p class="sub">Prepared by Wasim Ullah &middot; 20 November 2026 &middot; Data to 19 November 2026</p>
+<p class="sub">Prepared by Wasim Ullah &middot; Week 1 update 28 November 2026 &middot; Meta ads review 20 November 2026</p>
+
+<section id="week1" class="wk">
+<h2 style="margin-top:20px">Week 1 update (23 to 28 November)</h2>
+<p class="sub">Start here. Status, what was found, what needs your decision, and what happens next. Nothing below has gone live on the website without approval.</p>
+
+<div class="kpis">
+ <div class="card kpi"><div class="v">89%</div><div class="l">of orders come from phones</div><div class="n">84 of 94 orders, 31 Aug to 26 Nov</div></div>
+ <div class="card kpi"><div class="v">59%</div><div class="l">Facebook/Instagram mobile orders kept</div><div class="n">vs 71% direct, 79% Google and email</div></div>
+ <div class="card kpi"><div class="v">9 of 10</div><div class="l">mobile refunds from Facebook/Instagram traffic</div><div class="n">49 of 84 mobile orders come from it</div></div>
+ <div class="card kpi"><div class="v">14%</div><div class="l">of orders fail at payment</div><div class="n">18 of 130 since March</div></div>
+ <div class="card kpi"><div class="v">58%</div><div class="l">of visits open inside the Instagram or Facebook app</div><div class="n">1,231 of 2,129 sessions, last 30 days</div></div>
+</div>
+
+<h3 style="margin:22px 0 8px;font-size:16px">Needs your decision</h3>
+<div class="card scroll"><table>
+<tr><th>#</th><th>What</th><th>Why it matters</th></tr>
+<tr><td>1</td><td>Approve the mobile checkout changes (below). Nothing goes live until you say yes.</td><td>Mobile is about 9 in 10 orders</td></tr>
+<tr><td>2</td><td>Add one DNS record for server-side tracking: <b>CNAME</b>, host <b>svc</b>, value <b>usv.stape.io</b> (DNS only, no proxy).</td><td>Lets tracking run on your own domain. Stape shows it as "verifying" until this is added.</td></tr>
+<tr><td>3</td><td>Send the refund reasons and Stripe decline codes for Facebook/Instagram orders.</td><td>Shows whether the problem is payment or traffic quality</td></tr>
+<tr><td>4</td><td>Answer the vendor list for Business Associate Agreements (host, email sending, CRM, backups, questionnaire storage).</td><td>Needed before any identifiers go to a tracking tool</td></tr>
+<tr><td>5</td><td>Approve installing Cookiebot (the trial covers one domain; a paid plan is needed before launch).</td><td>Consent banner, and fixes the tag order on the site</td></tr>
+</table></div>
+
+<h3 style="margin:22px 0 8px;font-size:16px">Proposed mobile checkout changes</h3>
+<div class="card scroll"><table>
+<tr><th>#</th><th>Change</th><th>Why</th></tr>
+<tr><td>1</td><td>Solid, full-width Place Order button that stays in view on phones, with the refund and cancel-anytime line right above it</td><td>The button is about four screens down, low contrast and not sticky; reassurance is missing at payment</td></tr>
+<tr><td>2</td><td>Set checkout input text to 16px</td><td>iPhone Safari zooms in on every field under 16px, which can push the form off screen</td></tr>
+<tr><td>3</td><td>Move the "Have a coupon?" link below the order summary</td><td>It sits at the top and invites leaving to hunt for codes</td></tr>
+<tr><td>4</td><td>Clear "try another card" message after a failed payment</td><td>14 mobile orders failed; 11 came from ad traffic</td></tr>
+<tr><td>5</td><td>Test Apple Pay and Google Pay</td><td>Fewer typing steps on a phone. It will not fix declines from insufficient funds.</td></tr>
+</table></div>
+<p class="note">Layout measured in a phone-width view of the live checkout; a real-phone check follows once changes are approved.</p>
+
+<h3 style="margin:22px 0 8px;font-size:16px">What the week 1 baseline and tests show</h3>
+<div class="card"><ul class="find">
+<li><b>Mobile is where the business is.</b> About $1,960 of $2,310 in paid-order revenue (since 31 Aug) came from phones. Desktop has only 10 orders, so mobile versus desktop cannot be judged yet.</li>
+<li><b>Most buyers arrive in an in-app browser.</b> 632 sessions came through the Instagram app and 599 through the Facebook app in 30 days, against 227 on Mobile Safari. Those in-app browsers are known to handle card entry, autofill and tracking badly, and about two thirds of the site's JavaScript errors mention their internals. This is a hypothesis to test, not a confirmed cause.</li>
+<li><b>Facebook/Instagram mobile orders are kept less often.</b> 29 of 49 kept, against 15 of 21 direct and 11 of 14 from Google and email. They account for 11 of 14 failed payments and 9 of 10 refunds.</li>
+<li><b>Birth control path, last 30 days:</b> 98 started the mini survey, 50 reached the full questionnaire (51%) and 29 reached the result page. Clarity shows no sessions continuing from the result page to checkout, which is a tracking gap on mobile, not proof nobody checks out.</li>
+<li><b>Two test orders went through</b> with the WASIMTEST100 coupon: #104892 on desktop and #104893 from an iPhone via a Facebook-style link. Both are marked TEST; nothing to ship.</li>
+<li><b>Tracking setup progress.</b> The old Meta pixel plugin is off, and ad and analytics tags are removed from the questionnaire pages (checked live). The server-side tracking container is created and linked to Tag Manager, and svc.opusmeds.com is added in Stape, waiting for the DNS record.</li>
+</ul></div>
+
+<h3 style="margin:22px 0 8px;font-size:16px">Weekly baseline (WooCommerce)</h3>
+<div class="card scroll"><table>
+<tr><th>Week starting</th><th>Paid orders</th><th>Paid revenue ($)</th><th>Failed</th><th>Refunded</th></tr>
+<tr><td>5 Oct</td><td>6</td><td>284</td><td>3</td><td>3</td></tr>
+<tr><td>12 Oct</td><td>4</td><td>120</td><td>2</td><td>2</td></tr>
+<tr><td>19 Oct</td><td>7</td><td>259</td><td>2</td><td>0</td></tr>
+<tr><td>26 Oct</td><td>6</td><td>445</td><td>0</td><td>0</td></tr>
+<tr><td>2 Nov</td><td>5</td><td>179</td><td>1</td><td>1</td></tr>
+<tr><td>9 Nov</td><td>6</td><td>170</td><td>0</td><td>0</td></tr>
+<tr><td>16 Nov</td><td>1</td><td>35</td><td>0</td><td>0</td></tr>
+<tr><td>23 Nov (to 26 Nov)</td><td>3</td><td>119</td><td>0</td><td>1</td></tr>
+</table></div>
+<p class="note">Since March: 89 paid orders from 48 customers, 23 of them ordered more than once (48%); paid revenue $3,651 (average order $41); 13 orders refunded ($572). Paid = processing, on-hold, shipped and delivered. Failed payments since March: 18 of 130 orders (9 insufficient funds, 5 card declined, 4 other). Test orders are excluded from the mobile figures.</p>
+
+<h3 style="margin:22px 0 8px;font-size:16px">Next steps</h3>
+<div class="card"><ul class="find">
+<li>Once you approve: make the mobile checkout changes, then re-test on a real phone, including inside the Instagram and Facebook in-app browsers.</li>
+<li>Fix Clarity so it follows mobile sessions through checkout, then review mobile recordings.</li>
+<li>Verify the tracking domain after the DNS record is added; then set up the Google Analytics test event through server-side tracking.</li>
+<li>Meta conversion data stays limited to an order value with no identifiers, and only after legal and vendor agreements are confirmed.</li>
+<li>Repeat the weekly baseline and the mobile table every week.</li>
+</ul></div>
+<p class="note">Sources: WooCommerce orders and order attribution (31 Aug to 26 Nov 2026, test orders excluded), Microsoft Clarity (last 30 days to 28 Nov), Stripe order notes, live checkout review, Stape and Cookiebot dashboards.</p>
+</section>
+
+<h2 style="margin-top:44px;border-top:1px solid var(--line);padding-top:24px">Meta ads review (prepared 20 November 2026)</h2>
 <p class="note">Sources: WooCommerce orders, Stripe payments, Meta Ads Manager exports (both accounts), Microsoft Clarity (90 days). Conversion = paid orders &divide; Meta link clicks. ROAS = WooCommerce paid-order revenue &divide; Meta spend.</p>
 
 <div class="kpis" id="kpis"></div>
@@ -86,7 +158,7 @@ details{margin-top:8px}summary{cursor:pointer;color:var(--ink2);font-size:13px}
 <h2>Testing plan: proof over time</h2>
 <div class="card">
 <p style="margin-top:0">There is no single fix for conversion, so each change is measured against a baseline before it is trusted. Traffic is the constraint: at about 0.44% conversion, a purchase-level A/B test needs roughly 14,500 visitors per version to detect a 50% improvement, which is about five months of the traffic seen in September and October. So the plan starts with before/after measurement and moves to A/B tests on the earlier funnel steps once traffic returns.</p>
-<table id="tests"></table>
+<div class="scroll"><table id="tests"></table></div>
 <p class="note">Sample sizes are rough estimates (95% confidence, 80% power) from the baselines above and will be recalculated once the week 1 baseline is in. Any testing tool must be kept off questionnaire answers and checkout details, and chosen only after the client approves it from a privacy point of view.</p>
 </div>
 
@@ -165,9 +237,9 @@ const A=[
 ['5','Purchase signal to Meta (Cookiebot, GTM, Stape), no health information in the event','About $24,400 of spend had no result','Within about 10% of WooCommerce paid orders','Weeks 7 to 8','Tracking'],
 ['6','Consent and tags: remove Google Ads tag and remarketing, consent denied by default, no ad or analytics tags on questionnaire, checkout, account pages; one pixel','Health-page data sent before consent; two pixels in two businesses','No tag fires before consent on sensitive pages','Weeks 3 to 4','Tracking'],
 ['7','Landing page copy edits (client approves each change)','Needed for ad approval and to match tracking','Client-approved copy','Weeks 7 to 8','Sales loss'],
-['8','Testing programme: before/after tracking now, A/B tests once traffic returns (see testing plan)','Conversion needs proof over time','Each change measured against baseline','From week 1','Testing'],
-['9','Campaign rebuild and small relaunch: one campaign per product, Purchase objective, stop rule','Mixed objectives and $250 daily budgets','Rising ROAS, falling spend per order','Weeks 10 to 12','Campaigns'],
-['10','Weekly report from WooCommerce and Stripe','Meta\'s results do not match sales','One page a week','From week 11','Reporting']
+['8','Campaign rebuild and small relaunch: one campaign per product, Purchase objective, stop rule','Mixed objectives and $250 daily budgets','Rising ROAS, falling spend per order','Weeks 10 to 12','Campaigns'],
+['9','Weekly report from WooCommerce and Stripe','Meta\'s results do not match sales','One page a week','From week 11','Reporting'],
+['10','Testing programme: before/after tracking now, A/B tests once traffic returns (see testing plan)','Conversion needs proof over time','Each change measured against baseline','From week 1','Testing']
 ];
 const cats=['All','Sales loss','Tracking','Testing','Campaigns','Reporting'];
 let cur='All';
